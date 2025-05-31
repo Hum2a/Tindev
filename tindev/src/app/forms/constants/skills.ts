@@ -167,6 +167,31 @@ export const TESTING_TOOLS = [
   'TestRail', 'qTest', 'Zephyr', 'PractiTest', 'TestLink'
 ];
 
+export const METHODOLOGIES = [
+  // Agile methodologies
+  'Agile', 'Scrum', 'Kanban', 'Extreme Programming (XP)', 'Lean', 'SAFe', 'Disciplined Agile Delivery (DAD)',
+  'Crystal', 'Feature-Driven Development (FDD)', 'Agile Unified Process (AUP)',
+
+  // Waterfall & traditional
+  'Waterfall', 'V-Model', 'Spiral', 'Incremental', 'RAD', 'Prototyping',
+
+  // Project management & delivery
+  'DevOps', 'Continuous Integration (CI)', 'Continuous Delivery (CD)', 'Continuous Deployment',
+  'Test-Driven Development (TDD)', 'Behavior-Driven Development (BDD)', 'Domain-Driven Design (DDD)',
+  'Pair Programming', 'Mob Programming', 'Code Review', 'Refactoring',
+
+  // IT & business frameworks
+  'ITIL', 'COBIT', 'Six Sigma', 'PMBOK', 'PRINCE2', 'ISO 9001', 'CMMI',
+
+  // Other
+  'Rapid Application Development', 'Prototyping', 'Spiral Model', 'Incremental Model',
+  'Scrumban', 'Agile Modeling', 'Scaled Agile Framework', 'Value Stream Mapping',
+  'Change Management', 'Risk Management', 'Release Management', 'Incident Management',
+  'Root Cause Analysis', 'Postmortem', 'Retrospective', 'Sprint Planning', 'Backlog Grooming',
+  'User Story Mapping', 'Story Points', 'Velocity Tracking', 'Burndown Chart', 'Kanban Board',
+  'Daily Standup', 'Sprint Review', 'Sprint Retrospective', 'Release Planning',
+];
+
 // Combine all categories for backwards compatibility
 export const SKILLS = [
   ...PROGRAMMING_LANGUAGES,
@@ -174,5 +199,6 @@ export const SKILLS = [
   ...TOOLS_AND_PLATFORMS,
   ...DATABASES,
   ...DEVOPS,
-  ...TESTING_TOOLS
+  ...TESTING_TOOLS,
+  ...METHODOLOGIES
 ];
