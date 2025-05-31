@@ -4,7 +4,6 @@
   background: white;
   border-radius: 18px;
   box-shadow: 0 8px 32px rgba(0,0,0,0.10);
-  max-width: 480px;
   margin-left: auto;
   margin-right: auto;
   animation: fadeInUp 0.7s cubic-bezier(0.23, 1, 0.32, 1);
@@ -46,6 +45,7 @@
   transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
   outline: none;
   box-shadow: 0 2px 8px rgba(0,112,243,0.03);
+  color: #222;
 }
 
 .formInput:focus, .formTextarea:focus {
@@ -173,4 +173,196 @@
 
 .skillBubble:hover .removeSkill, .skillBubble:focus .removeSkill {
   color: #fff;
-} 
+}
+
+.useProfileButton {
+  background: none;
+  border: none;
+  color: #0070f3;
+  font-weight: 600;
+  margin-left: 1rem;
+  cursor: pointer;
+  font-size: 0.95rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 6px;
+  transition: color 0.18s, background 0.18s, box-shadow 0.18s;
+  outline: none;
+  position: relative;
+  top: -2px;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  animation: fadeIn 0.7s 0.2s both;
+}
+
+.useProfileButton:hover,
+.useProfileButton:focus {
+  color: #0051a8;
+  background: #f0f7ff;
+  box-shadow: 0 2px 8px rgba(0,112,243,0.07);
+  text-decoration: none;
+}
+
+.profilePreview {
+  margin-top: 0.75rem;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  box-shadow: 0 4px 16px rgba(0,112,243,0.13);
+  border: 2px solid #e5e7eb;
+  transition: box-shadow 0.2s, border-color 0.2s;
+  animation: popIn 0.5s;
+}
+
+.profilePreview:hover,
+.profilePreview:focus {
+  box-shadow: 0 8px 24px rgba(0,112,243,0.18);
+  border-color: #0070f3;
+}
+
+.nameRow {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.2rem;
+}
+
+.nameRow .formInput {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+@media (max-width: 600px) {
+  .nameRow {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+.photoUploadRow {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-top: 0.3rem;
+}
+
+.uploadButton {
+  background: linear-gradient(90deg, #00c6fb 0%, #0070f3 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.7rem 1.5rem;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(0,112,243,0.08);
+  outline: none;
+  animation: popIn 0.7s 0.3s both;
+  display: inline-block;
+}
+
+.uploadButton:hover, .uploadButton:focus {
+  background: linear-gradient(90deg, #00a6d6 0%, #0051a8 100%);
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 4px 16px rgba(0,112,243,0.13);
+}
+
+.locationRow {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.2rem;
+}
+
+.locationRow .formInput {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+@media (max-width: 600px) {
+  .locationRow {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+.phoneRow {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-top: 0.2rem;
+}
+
+.phoneCodeSelect {
+  padding: 1rem 0.8rem;
+  border-radius: 10px;
+  border: 1.5px solid #e5e7eb;
+  font-size: 1rem;
+  background: #f9fafb;
+  color: #222;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+  outline: none;
+  box-shadow: 0 2px 8px rgba(0,112,243,0.03);
+  font-weight: 500;
+  min-width: 110px;
+}
+
+.phoneCodeSelect:focus {
+  border-color: #0070f3;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(0,112,243,0.10);
+}
+
+@media (max-width: 600px) {
+  .phoneRow {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .phoneCodeSelect {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+.sectionHeader {
+  width: 100%;
+  background: none;
+  border: none;
+  color: #0070f3;
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-align: left;
+  padding: 0.5rem 0 0.5rem 0;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: color 0.18s;
+  border-radius: 8px;
+  outline: none;
+  user-select: none;
+}
+
+.sectionHeader:hover, .sectionHeader:focus {
+  color: #0051a8;
+  background: #f0f7ff;
+}
+
+.sectionChevron {
+  display: inline-block;
+  font-size: 1.2em;
+  margin-left: 0.5rem;
+  transition: transform 0.3s cubic-bezier(.4,2,.6,1), color 0.18s;
+  color: #0070f3;
+}
+
+.sectionChevronOpen {
+  transform: rotate(180deg);
+  color: #059669;
+}
+
+.sectionContent {
+  overflow: hidden;
+  transition: max-height 0.5s cubic-bezier(.4,2,.6,1), opacity 0.3s;
+  will-change: max-height, opacity;
+}
