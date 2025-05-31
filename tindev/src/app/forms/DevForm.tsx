@@ -1,91 +1,12 @@
 import React, { useState, ChangeEvent } from 'react';
 import styles from './DevForm.module.css';
 import { useAuth } from '@/lib/hooks/useAuth';
-
-const TIMEZONES = [
-  'UTC', 'Europe/London', 'Europe/Paris', 'Europe/Berlin', 'Europe/Moscow', 'Europe/Istanbul',
-  'America/New_York', 'America/Chicago', 'America/Denver', 'America/Los_Angeles', 'America/Toronto',
-  'America/Vancouver', 'America/Sao_Paulo', 'America/Buenos_Aires', 'America/Mexico_City',
-  'Asia/Dubai', 'Asia/Kolkata', 'Asia/Shanghai', 'Asia/Tokyo', 'Asia/Singapore', 'Asia/Hong_Kong',
-  'Asia/Bangkok', 'Asia/Seoul', 'Asia/Jakarta', 'Asia/Manila', 'Asia/Kuala_Lumpur',
-  'Australia/Sydney', 'Australia/Melbourne', 'Australia/Brisbane', 'Australia/Perth',
-  'Africa/Johannesburg', 'Africa/Cairo', 'Africa/Lagos', 'Africa/Nairobi',
-  'Pacific/Auckland', 'Pacific/Honolulu', 'Pacific/Fiji', 'Pacific/Guam',
-  'Europe/Madrid', 'Europe/Rome', 'Europe/Amsterdam', 'Europe/Zurich', 'Europe/Stockholm',
-  'America/Phoenix', 'America/Anchorage', 'America/Halifax', 'America/Winnipeg',
-  'America/Caracas', 'America/Lima', 'America/Bogota', 'America/Santiago',
-  'Asia/Dhaka', 'Asia/Karachi', 'Asia/Taipei', 'Asia/Riyadh', 'Asia/Tehran',
-  'Asia/Jerusalem', 'Asia/Kathmandu', 'Asia/Yangon', 'Asia/Colombo', 'Asia/Tashkent',
-  'Asia/Almaty', 'Asia/Baku', 'Asia/Yekaterinburg', 'Asia/Vladivostok',
-  'Australia/Adelaide', 'Australia/Darwin', 'Australia/Hobart',
-  'Pacific/Port_Moresby', 'Pacific/Tongatapu', 'Pacific/Samoa',
-  'Etc/GMT+12', 'Etc/GMT+11', 'Etc/GMT+10', 'Etc/GMT+9', 'Etc/GMT+8', 'Etc/GMT+7',
-  'Etc/GMT+6', 'Etc/GMT+5', 'Etc/GMT+4', 'Etc/GMT+3', 'Etc/GMT+2', 'Etc/GMT+1',
-  'Etc/GMT-1', 'Etc/GMT-2', 'Etc/GMT-3', 'Etc/GMT-4', 'Etc/GMT-5', 'Etc/GMT-6',
-  'Etc/GMT-7', 'Etc/GMT-8', 'Etc/GMT-9', 'Etc/GMT-10', 'Etc/GMT-11', 'Etc/GMT-12',
-];
-
-const COUNTRY_CODES = [
-  { code: '+1', country: 'USA/Canada' },
-  { code: '+44', country: 'UK' },
-  { code: '+61', country: 'Australia' },
-  { code: '+91', country: 'India' },
-  { code: '+81', country: 'Japan' },
-  { code: '+49', country: 'Germany' },
-  { code: '+33', country: 'France' },
-  { code: '+34', country: 'Spain' },
-  { code: '+39', country: 'Italy' },
-  { code: '+86', country: 'China' },
-  { code: '+7', country: 'Russia' },
-  { code: '+55', country: 'Brazil' },
-  { code: '+27', country: 'South Africa' },
-  { code: '+82', country: 'South Korea' },
-  { code: '+62', country: 'Indonesia' },
-  { code: '+63', country: 'Philippines' },
-  { code: '+234', country: 'Nigeria' },
-  { code: '+20', country: 'Egypt' },
-  { code: '+971', country: 'UAE' },
-  { code: '+966', country: 'Saudi Arabia' },
-  { code: '+92', country: 'Pakistan' },
-  { code: '+880', country: 'Bangladesh' },
-  { code: '+60', country: 'Malaysia' },
-  { code: '+65', country: 'Singapore' },
-  { code: '+64', country: 'New Zealand' },
-  { code: '+353', country: 'Ireland' },
-  { code: '+358', country: 'Finland' },
-  { code: '+46', country: 'Sweden' },
-  { code: '+47', country: 'Norway' },
-  { code: '+48', country: 'Poland' },
-  { code: '+351', country: 'Portugal' },
-  { code: '+90', country: 'Turkey' },
-  { code: '+52', country: 'Mexico' },
-  { code: '+1-876', country: 'Jamaica' },
-  // ...add more as needed
-];
-
-const EMPLOYMENT_TYPES = [
-  'Full-time', 'Part-time', 'Contract', 'Freelance', 'Internship'
-];
-const AVAILABILITIES = [
-  'Immediate', '1 week', '2 weeks', '1 month', 'Negotiable'
-];
-
-const CURRENCIES = [
-  { code: 'USD', symbol: '$' },
-  { code: 'GBP', symbol: '£' },
-  { code: 'EUR', symbol: '€' },
-  { code: 'CAD', symbol: 'C$' },
-  { code: 'AUD', symbol: 'A$' },
-  { code: 'INR', symbol: '₹' },
-  { code: 'JPY', symbol: '¥' },
-  { code: 'CNY', symbol: '¥' },
-  { code: 'BRL', symbol: 'R$' },
-  { code: 'ZAR', symbol: 'R' },
-  // ...add more as needed
-];
-const SALARY_PERIODS = [
-  'Hourly', 'Per Project', 'Weekly', 'Monthly', 'Annually'
-];
+import { TIMEZONES } from './constants/timezones';
+import { COUNTRY_CODES } from './constants/countryCodes';
+import { CURRENCIES } from './constants/currencies';
+import { SALARY_PERIODS } from './constants/salaryPeriods';
+import { EMPLOYMENT_TYPES } from './constants/employmentTypes';
+import { AVAILABILITIES } from './constants/availabilities';
 
 const DevForm: React.FC = () => {
   const { profile } = useAuth();
@@ -105,7 +26,6 @@ const DevForm: React.FC = () => {
   const [email, setEmail] = useState('');
   const [useProfileEmail, setUseProfileEmail] = useState(false);
   const [profilePhoto, setProfilePhoto] = useState('');
-  const [profilePhotoFile, setProfilePhotoFile] = useState<File | null>(null);
   const [profilePhotoPreview, setProfilePhotoPreview] = useState('');
   const [useProfilePhoto, setUseProfilePhoto] = useState(false);
   const [city, setCity] = useState('');
@@ -119,10 +39,12 @@ const DevForm: React.FC = () => {
   const [yearsExperience, setYearsExperience] = useState('');
   const [employmentType, setEmploymentType] = useState('');
   const [availability, setAvailability] = useState('');
-  const [expectedSalary, setExpectedSalary] = useState('');
   const [salaryCurrency, setSalaryCurrency] = useState('USD');
   const [salaryPeriod, setSalaryPeriod] = useState('Annually');
   const [salaryAmount, setSalaryAmount] = useState('');
+
+  const basicExpanded = showBasic ? 'true' : 'false';
+  const professionalExpanded = showProfessional ? 'true' : 'false';
 
   const handleSkillInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSkillInput(e.target.value);
@@ -164,17 +86,14 @@ const DevForm: React.FC = () => {
   const handleProfilePhotoChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      setProfilePhotoFile(file);
+      setProfilePhoto(URL.createObjectURL(file));
       setProfilePhotoPreview(URL.createObjectURL(file));
-      setProfilePhoto(''); // Clear URL if uploading new file
     }
   };
 
   const handleUseProfilePhoto = () => {
     if (!useProfilePhoto && profile?.photoURL) {
       setProfilePhoto(profile.photoURL);
-      setProfilePhotoFile(null);
-      setProfilePhotoPreview('');
     }
     setUseProfilePhoto(!useProfilePhoto);
   };
@@ -188,7 +107,7 @@ const DevForm: React.FC = () => {
           type="button"
           className={styles.sectionHeader}
           onClick={() => setShowBasic((prev) => !prev)}
-          aria-expanded={showBasic}
+          aria-expanded={basicExpanded}
         >
           <span>Basic Information</span>
           <span className={styles.sectionChevron + (showBasic ? ' ' + styles.sectionChevronOpen : '')}>
@@ -369,7 +288,7 @@ const DevForm: React.FC = () => {
           type="button"
           className={styles.sectionHeader}
           onClick={() => setShowProfessional((prev) => !prev)}
-          aria-expanded={showProfessional ? 'true' : 'false'}
+          aria-expanded={professionalExpanded}
         >
           <span>Professional Details</span>
           <span className={styles.sectionChevron + (showProfessional ? ' ' + styles.sectionChevronOpen : '')}>
