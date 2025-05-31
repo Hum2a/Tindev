@@ -8,7 +8,16 @@ import { CURRENCIES } from './constants/currencies';
 import { SALARY_PERIODS } from './constants/salaryPeriods';
 import { EMPLOYMENT_TYPES } from './constants/employmentTypes';
 import { AVAILABILITIES } from './constants/availabilities';
-import { SKILLS } from './constants/skills';
+import {
+  FRAMEWORKS_AND_LIBRARIES,
+  PROGRAMMING_LANGUAGES,
+  TOOLS_AND_PLATFORMS,
+  DATABASES,
+  DEVOPS,
+  TESTING_TOOLS,
+  METHODOLOGIES
+} from './constants/skills';
+import { LANGUAGES } from './constants/languages';
 
 const DevForm: React.FC = () => {
   const { profile } = useAuth();
@@ -73,8 +82,6 @@ const DevForm: React.FC = () => {
 
   // Skills & Expertise section state
   const [showSkills, setShowSkills] = useState(false);
-  const [primarySkills, setPrimarySkills] = useState<string[]>([]);
-  const [secondarySkills, setSecondarySkills] = useState<string[]>([]);
   const [frameworks, setFrameworks] = useState<string[]>([]);
   const [languages, setLanguages] = useState<string[]>([]);
   const [tools, setTools] = useState<string[]>([]);
@@ -411,16 +418,14 @@ const DevForm: React.FC = () => {
           className={styles.sectionContent}
           style={{ maxHeight: showSkills ? 2000 : 0, opacity: showSkills ? 1 : 0, pointerEvents: showSkills ? 'auto' : 'none' }}
         >
-          <SkillInputGroup label="Primary Skills" skills={primarySkills} setSkills={setPrimarySkills} placeholder="e.g. JavaScript, Python, React" />
-          <SkillInputGroup label="Secondary Skills" skills={secondarySkills} setSkills={setSecondarySkills} />
-          <SkillInputGroup label="Frameworks & Libraries" skills={frameworks} setSkills={setFrameworks} />
-          <SkillInputGroup label="Programming Languages" skills={languages} setSkills={setLanguages} />
-          <SkillInputGroup label="Tools & Platforms" skills={tools} setSkills={setTools} placeholder="e.g. AWS, Docker, Figma" />
-          <SkillInputGroup label="Databases" skills={databases} setSkills={setDatabases} placeholder="e.g. MongoDB, PostgreSQL" />
-          <SkillInputGroup label="DevOps / CI/CD Experience" skills={devops} setSkills={setDevops} />
-          <SkillInputGroup label="Testing Tools" skills={testingTools} setSkills={setTestingTools} placeholder="e.g. Jest, Cypress" />
-          <SkillInputGroup label="Methodologies" skills={methodologies} setSkills={setMethodologies} placeholder="e.g. Agile, Scrum, Kanban" />
-          <SpokenLanguagesInput languages={spokenLanguages} setLanguages={setSpokenLanguages} />
+          <SkillInputGroup label="Frameworks & Libraries" skills={frameworks} setSkills={setFrameworks} options={FRAMEWORKS_AND_LIBRARIES} />
+          <SkillInputGroup label="Programming Languages" skills={languages} setSkills={setLanguages} options={PROGRAMMING_LANGUAGES} />
+          <SkillInputGroup label="Tools & Platforms" skills={tools} setSkills={setTools} options={TOOLS_AND_PLATFORMS} placeholder="e.g. AWS, Docker, Figma" />
+          <SkillInputGroup label="Databases" skills={databases} setSkills={setDatabases} options={DATABASES} placeholder="e.g. MongoDB, PostgreSQL" />
+          <SkillInputGroup label="DevOps / CI/CD Experience" skills={devops} setSkills={setDevops} options={DEVOPS} />
+          <SkillInputGroup label="Testing Tools" skills={testingTools} setSkills={setTestingTools} options={TESTING_TOOLS} placeholder="e.g. Jest, Cypress" />
+          <SkillInputGroup label="Methodologies" skills={methodologies} setSkills={setMethodologies} options={METHODOLOGIES} placeholder="e.g. Agile, Scrum, Kanban" />
+          <SpokenLanguagesInput languages={spokenLanguages} setLanguages={setSpokenLanguages} options={LANGUAGES} />
         </div>
         <div className={styles.formGroup}>
           <label htmlFor="experience" className={styles.formLabel}>Years of Experience</label>
@@ -438,8 +443,9 @@ const SkillInputGroup: React.FC<{
   label: string;
   skills: string[];
   setSkills: (skills: string[]) => void;
+  options?: string[];
   placeholder?: string;
-}> = ({ label, skills, setSkills, placeholder }) => {
+}> = ({ label, skills, setSkills, options, placeholder }) => {
   const [input, setInput] = useState('');
   const [dropdownMode, setDropdownMode] = useState(false);
   const [dropdownQuery, setDropdownQuery] = useState('');
@@ -458,7 +464,7 @@ const SkillInputGroup: React.FC<{
   const handleRemove = (skill: string) => setSkills(skills.filter(s => s !== skill));
 
   // Dropdown mode logic
-  const filteredSkills = SKILLS.filter(
+  const filteredSkills = (options || []).filter(
     s => s.toLowerCase().includes(dropdownQuery.toLowerCase()) && !skills.includes(s)
   );
   const handleDropdownSelect = (skill: string) => {
@@ -585,10 +591,17 @@ const SkillInputGroup: React.FC<{
 const SpokenLanguagesInput: React.FC<{
   languages: { language: string; proficiency: string }[];
   setLanguages: (langs: { language: string; proficiency: string }[]) => void;
-}> = ({ languages, setLanguages }) => {
+  options?: string[];
+}> = ({ languages, setLanguages, options }) => {
   const [input, setInput] = useState('');
   const [proficiency, setProficiency] = useState('');
   const profOptions = ['Native', 'Fluent', 'Professional', 'Conversational', 'Basic'];
+  const [dropdownMode, setDropdownMode] = useState(false);
+  const [dropdownQuery, setDropdownQuery] = useState('');
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const filteredLanguages = (options || []).filter(
+    l => l.toLowerCase().includes(dropdownQuery.toLowerCase()) && !languages.some(lang => lang.language === l)
+  );
   const handleAdd = (e: React.FormEvent | React.MouseEvent) => {
     e.preventDefault();
     const trimmed = input.trim();
@@ -599,19 +612,94 @@ const SpokenLanguagesInput: React.FC<{
     setProficiency('');
   };
   const handleRemove = (lang: string) => setLanguages(languages.filter(l => l.language !== lang));
+
+  const langInputRef = useRef<HTMLInputElement>(null);
+  const [langDropdownPos, setLangDropdownPos] = useState<{top: number, left: number, width: number, height: number}>({top: 0, left: 0, width: 0, height: 0});
+  useLayoutEffect(() => {
+    if (dropdownOpen && langInputRef.current) {
+      const rect = langInputRef.current.getBoundingClientRect();
+      setLangDropdownPos({
+        top: rect.top + window.scrollY,
+        left: rect.left + window.scrollX,
+        width: rect.width,
+        height: rect.height,
+      });
+    }
+  }, [dropdownOpen]);
+
   return (
     <div className={styles.formGroup}>
       <label className={styles.formLabel}>Spoken Languages (with proficiency)</label>
+      <button
+        type="button"
+        className={styles.addSkillButton}
+        style={{ padding: '0.4rem 1rem', fontSize: '0.95rem', marginLeft: 8 }}
+        onClick={() => setDropdownMode(m => !m)}
+        aria-pressed={dropdownMode}
+      >
+        {dropdownMode ? 'Switch to Manual' : 'Search Languages'}
+      </button>
       <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-        <input
-          type="text"
-          className={styles.formInput}
-          placeholder="e.g. English, Spanish"
-          value={input}
-          onChange={e => setInput(e.target.value)}
-          autoComplete="off"
-          style={{ flex: 2 }}
-        />
+        {!dropdownMode ? (
+          <input
+            type="text"
+            className={styles.formInput}
+            placeholder="e.g. English, Spanish"
+            value={input}
+            onChange={e => setInput(e.target.value)}
+            autoComplete="off"
+            style={{ flex: 2 }}
+          />
+        ) : (
+          <div style={{ position: 'relative', flex: 2 }}>
+            <input
+              ref={langInputRef}
+              type="text"
+              className={styles.formInput}
+              placeholder="Search languages..."
+              value={dropdownQuery}
+              onChange={e => {
+                setDropdownQuery(e.target.value);
+                setDropdownOpen(true);
+              }}
+              onFocus={() => setDropdownOpen(true)}
+              autoComplete="off"
+              style={{ width: '100%' }}
+            />
+            {dropdownOpen && filteredLanguages.length > 0 && ReactDOM.createPortal(
+              <ul
+                className={styles['form-skillsDropdown']}
+                style={{
+                  position: 'absolute',
+                  left: langDropdownPos.left,
+                  top: langDropdownPos.top - 8, // small gap
+                  width: langDropdownPos.width,
+                  transform: `translateY(-100%)`,
+                  margin: 0,
+                  padding: 0,
+                  listStyle: 'none',
+                  zIndex: 9999,
+                }}
+              >
+                {filteredLanguages.map(lang => (
+                  <li
+                    key={lang}
+                    className={styles['form-skillsDropdownItem']}
+                    onMouseDown={() => {
+                      setInput(lang);
+                      setDropdownQuery('');
+                      setDropdownOpen(false);
+                    }}
+                    tabIndex={0}
+                  >
+                    {lang}
+                  </li>
+                ))}
+              </ul>,
+              document.body
+            )}
+          </div>
+        )}
         <select
           className={styles.formInput}
           value={proficiency}
@@ -628,7 +716,7 @@ const SpokenLanguagesInput: React.FC<{
           type="button"
           className={styles.addSkillButton}
           onClick={handleAdd}
-          disabled={!input.trim() || !proficiency}
+          disabled={(!input.trim() && !dropdownQuery.trim()) || !proficiency}
         >
           Add
         </button>
