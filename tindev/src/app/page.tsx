@@ -6,6 +6,8 @@ import AuthModal from './modals/AuthModal';
 import { useAuth } from '@/lib/hooks/useAuth';
 import { updateUserRole, getDocument } from '@/lib/firebase/firestore';
 import type { UserProfile } from '@/lib/hooks/useAuth';
+import DevForm from './forms/DevForm';
+import ClientForm from './forms/ClientForm';
 
 export default function Home() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
@@ -102,6 +104,9 @@ export default function Home() {
           </button>
         </div>
       </div>
+
+      {(selectedRole === 'developer' || localProfile?.isDeveloper) && <DevForm />}
+      {(selectedRole === 'client' || localProfile?.isClient) && <ClientForm />}
 
       <AuthModal
         isOpen={isAuthModalOpen}
