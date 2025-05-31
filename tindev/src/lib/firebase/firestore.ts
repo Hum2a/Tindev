@@ -9,9 +9,6 @@ import {
   query,
   DocumentData,
   QueryConstraint,
-  where,
-  orderBy,
-  limit
 } from 'firebase/firestore';
 import { db } from './config';
 
