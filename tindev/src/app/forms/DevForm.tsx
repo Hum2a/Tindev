@@ -1,4 +1,5 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent, useRef, useLayoutEffect } from 'react';
+import ReactDOM from 'react-dom';
 import styles from './DevForm.module.css';
 import { useAuth } from '@/lib/hooks/useAuth';
 import { TIMEZONES } from './constants/timezones';
@@ -7,6 +8,7 @@ import { CURRENCIES } from './constants/currencies';
 import { SALARY_PERIODS } from './constants/salaryPeriods';
 import { EMPLOYMENT_TYPES } from './constants/employmentTypes';
 import { AVAILABILITIES } from './constants/availabilities';
+import { SKILLS } from './constants/skills';
 
 const DevForm: React.FC = () => {
   const { profile } = useAuth();
@@ -14,9 +16,6 @@ const DevForm: React.FC = () => {
   // Collapsible section state
   const [showBasic, setShowBasic] = useState(true);
   const [showProfessional, setShowProfessional] = useState(false);
-
-  const [skills, setSkills] = useState<string[]>([]);
-  const [skillInput, setSkillInput] = useState('');
 
   const [firstName, setFirstName] = useState('');
   const [middleNames, setMiddleNames] = useState('');
@@ -42,32 +41,6 @@ const DevForm: React.FC = () => {
   const [salaryCurrency, setSalaryCurrency] = useState('USD');
   const [salaryPeriod, setSalaryPeriod] = useState('Annually');
   const [salaryAmount, setSalaryAmount] = useState('');
-
-  const basicExpanded = showBasic ? 'true' : 'false';
-  const professionalExpanded = showProfessional ? 'true' : 'false';
-
-  const handleSkillInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSkillInput(e.target.value);
-  };
-
-  const handleAddSkill = (e: React.FormEvent | React.MouseEvent) => {
-    e.preventDefault();
-    const trimmed = skillInput.trim();
-    if (trimmed && !skills.includes(trimmed)) {
-      setSkills([...skills, trimmed]);
-    }
-    setSkillInput('');
-  };
-
-  const handleSkillKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      handleAddSkill(e);
-    }
-  };
-
-  const handleRemoveSkill = (skill: string) => {
-    setSkills(skills.filter(s => s !== skill));
-  };
 
   const handleUseProfileDisplayName = () => {
     if (!useProfileDisplayName && profile?.displayName) {
@@ -98,6 +71,33 @@ const DevForm: React.FC = () => {
     setUseProfilePhoto(!useProfilePhoto);
   };
 
+  // Skills & Expertise section state
+  const [showSkills, setShowSkills] = useState(false);
+  const [primarySkills, setPrimarySkills] = useState<string[]>([]);
+  const [secondarySkills, setSecondarySkills] = useState<string[]>([]);
+  const [frameworks, setFrameworks] = useState<string[]>([]);
+  const [languages, setLanguages] = useState<string[]>([]);
+  const [tools, setTools] = useState<string[]>([]);
+  const [databases, setDatabases] = useState<string[]>([]);
+  const [devops, setDevops] = useState<string[]>([]);
+  const [testingTools, setTestingTools] = useState<string[]>([]);
+  const [methodologies, setMethodologies] = useState<string[]>([]);
+  const [spokenLanguages, setSpokenLanguages] = useState<{ language: string; proficiency: string }[]>([]);
+
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [dropdownPos, setDropdownPos] = useState<{top: number, left: number, width: number}>({top: 0, left: 0, width: 0});
+
+  useLayoutEffect(() => {
+    if (showSkills && inputRef.current) {
+      const rect = inputRef.current.getBoundingClientRect();
+      setDropdownPos({
+        top: rect.bottom + window.scrollY,
+        left: rect.left + window.scrollX,
+        width: rect.width,
+      });
+    }
+  }, [showSkills]);
+
   return (
     <div className={styles.formCard}>
       <h2 className={styles.formTitle}>Developer Profile</h2>
@@ -107,7 +107,7 @@ const DevForm: React.FC = () => {
           type="button"
           className={styles.sectionHeader}
           onClick={() => setShowBasic((prev) => !prev)}
-          aria-expanded={basicExpanded}
+          aria-expanded={!!showBasic}
         >
           <span>Basic Information</span>
           <span className={styles.sectionChevron + (showBasic ? ' ' + styles.sectionChevronOpen : '')}>
@@ -288,7 +288,7 @@ const DevForm: React.FC = () => {
           type="button"
           className={styles.sectionHeader}
           onClick={() => setShowProfessional((prev) => !prev)}
-          aria-expanded={professionalExpanded}
+          aria-expanded={!!showProfessional}
         >
           <span>Professional Details</span>
           <span className={styles.sectionChevron + (showProfessional ? ' ' + styles.sectionChevronOpen : '')}>
@@ -395,44 +395,32 @@ const DevForm: React.FC = () => {
             </div>
           </div>
         </div>
-        <div className={styles.formGroup}>
-          <label htmlFor="skills" className={styles.formLabel}>Skills</label>
-          <div style={{ display: 'flex', gap: '0.5rem' }}>
-            <input
-              id="skills"
-              name="skills"
-              type="text"
-              placeholder="e.g. React, Node.js, TypeScript"
-              className={styles.formInput}
-              value={skillInput}
-              onChange={handleSkillInputChange}
-              onKeyDown={handleSkillKeyDown}
-              autoComplete="off"
-            />
-            <button
-              type="button"
-              className={styles.addSkillButton}
-              onClick={handleAddSkill}
-              disabled={!skillInput.trim()}
-            >
-              Add
-            </button>
-          </div>
-          {skills.length > 0 && (
-            <div className={styles.skillsBubbleContainer}>
-              {skills.map(skill => (
-                <span
-                  key={skill}
-                  className={styles.skillBubble}
-                  onClick={() => handleRemoveSkill(skill)}
-                  tabIndex={0}
-                  title="Remove skill"
-                >
-                  {skill} <span className={styles.removeSkill}>&times;</span>
-                </span>
-              ))}
-            </div>
-          )}
+        {/* Collapsible Skills & Expertise Section */}
+        <button
+          type="button"
+          className={styles.sectionHeader}
+          onClick={() => setShowSkills((prev) => !prev)}
+          aria-expanded={!!showSkills}
+        >
+          <span>Skills & Expertise</span>
+          <span className={styles.sectionChevron + (showSkills ? ' ' + styles.sectionChevronOpen : '')}>
+            ▼
+          </span>
+        </button>
+        <div
+          className={styles.sectionContent}
+          style={{ maxHeight: showSkills ? 2000 : 0, opacity: showSkills ? 1 : 0, pointerEvents: showSkills ? 'auto' : 'none' }}
+        >
+          <SkillInputGroup label="Primary Skills" skills={primarySkills} setSkills={setPrimarySkills} placeholder="e.g. JavaScript, Python, React" />
+          <SkillInputGroup label="Secondary Skills" skills={secondarySkills} setSkills={setSecondarySkills} />
+          <SkillInputGroup label="Frameworks & Libraries" skills={frameworks} setSkills={setFrameworks} />
+          <SkillInputGroup label="Programming Languages" skills={languages} setSkills={setLanguages} />
+          <SkillInputGroup label="Tools & Platforms" skills={tools} setSkills={setTools} placeholder="e.g. AWS, Docker, Figma" />
+          <SkillInputGroup label="Databases" skills={databases} setSkills={setDatabases} placeholder="e.g. MongoDB, PostgreSQL" />
+          <SkillInputGroup label="DevOps / CI/CD Experience" skills={devops} setSkills={setDevops} />
+          <SkillInputGroup label="Testing Tools" skills={testingTools} setSkills={setTestingTools} placeholder="e.g. Jest, Cypress" />
+          <SkillInputGroup label="Methodologies" skills={methodologies} setSkills={setMethodologies} placeholder="e.g. Agile, Scrum, Kanban" />
+          <SpokenLanguagesInput languages={spokenLanguages} setLanguages={setSpokenLanguages} />
         </div>
         <div className={styles.formGroup}>
           <label htmlFor="experience" className={styles.formLabel}>Years of Experience</label>
@@ -441,6 +429,225 @@ const DevForm: React.FC = () => {
 
         <button type="submit" className={styles.formButton}>Save</button>
       </form>
+    </div>
+  );
+};
+
+// Reusable skill input group component
+const SkillInputGroup: React.FC<{
+  label: string;
+  skills: string[];
+  setSkills: (skills: string[]) => void;
+  placeholder?: string;
+}> = ({ label, skills, setSkills, placeholder }) => {
+  const [input, setInput] = useState('');
+  const [dropdownMode, setDropdownMode] = useState(false);
+  const [dropdownQuery, setDropdownQuery] = useState('');
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => setInput(e.target.value);
+  const handleAdd = (e: React.FormEvent | React.MouseEvent) => {
+    e.preventDefault();
+    const trimmed = input.trim();
+    if (trimmed && !skills.includes(trimmed)) setSkills([...skills, trimmed]);
+    setInput('');
+  };
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') handleAdd(e);
+  };
+  const handleRemove = (skill: string) => setSkills(skills.filter(s => s !== skill));
+
+  // Dropdown mode logic
+  const filteredSkills = SKILLS.filter(
+    s => s.toLowerCase().includes(dropdownQuery.toLowerCase()) && !skills.includes(s)
+  );
+  const handleDropdownSelect = (skill: string) => {
+    setSkills([...skills, skill]);
+    setDropdownQuery('');
+    setDropdownOpen(false);
+  };
+
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [dropdownPos, setDropdownPos] = useState<{top: number, left: number, width: number}>({top: 0, left: 0, width: 0});
+
+  useLayoutEffect(() => {
+    if (dropdownOpen && inputRef.current) {
+      const rect = inputRef.current.getBoundingClientRect();
+      setDropdownPos({
+        top: rect.bottom + window.scrollY,
+        left: rect.left + window.scrollX,
+        width: rect.width,
+      });
+    }
+  }, [dropdownOpen]);
+
+  return (
+    <div className={styles.formGroup}>
+      <label className={styles.formLabel} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+        {label}
+        <button
+          type="button"
+          className={styles.addSkillButton}
+          style={{ padding: '0.4rem 1rem', fontSize: '0.95rem', marginLeft: 8 }}
+          onClick={() => setDropdownMode(m => !m)}
+          aria-pressed={dropdownMode}
+        >
+          {dropdownMode ? 'Switch to Manual' : 'Search Skills'}
+        </button>
+      </label>
+      {!dropdownMode ? (
+        <div style={{ display: 'flex', gap: '0.5rem' }}>
+          <input
+            type="text"
+            className={styles.formInput}
+            placeholder={placeholder || 'Add skill'}
+            value={input}
+            onChange={handleInputChange}
+            onKeyDown={handleKeyDown}
+            autoComplete="off"
+          />
+          <button
+            type="button"
+            className={styles.addSkillButton}
+            onClick={handleAdd}
+            disabled={!input.trim()}
+          >
+            Add
+          </button>
+        </div>
+      ) : (
+        <div style={{ position: 'relative', maxWidth: 400 }}>
+          <input
+            ref={inputRef}
+            type="text"
+            className={styles.formInput}
+            placeholder={placeholder || 'Search skills...'}
+            value={dropdownQuery}
+            onChange={e => {
+              setDropdownQuery(e.target.value);
+              setDropdownOpen(true);
+            }}
+            onFocus={() => setDropdownOpen(true)}
+            autoComplete="off"
+            style={{ width: '100%' }}
+          />
+          {dropdownOpen && filteredSkills.length > 0 && ReactDOM.createPortal(
+            <ul
+              className={styles['form-skillsDropdown']}
+              style={{
+                position: 'absolute',
+                top: dropdownPos.top,
+                left: dropdownPos.left,
+                width: dropdownPos.width,
+                margin: 0,
+                padding: 0,
+                listStyle: 'none',
+              }}
+            >
+              {filteredSkills.map(skill => (
+                <li
+                  key={skill}
+                  className={styles['form-skillsDropdownItem']}
+                  onMouseDown={() => handleDropdownSelect(skill)}
+                  tabIndex={0}
+                  onKeyDown={e => {
+                    if (e.key === 'Enter') handleDropdownSelect(skill);
+                  }}
+                >
+                  {skill}
+                </li>
+              ))}
+            </ul>,
+            document.body
+          )}
+        </div>
+      )}
+      {skills.length > 0 && (
+        <div className={styles.skillsBubbleContainer}>
+          {skills.map(skill => (
+            <span
+              key={skill}
+              className={styles.skillBubble}
+              onClick={() => handleRemove(skill)}
+              tabIndex={0}
+              title="Remove skill"
+            >
+              {skill} <span className={styles.removeSkill}>&times;</span>
+            </span>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+// Spoken languages input group
+const SpokenLanguagesInput: React.FC<{
+  languages: { language: string; proficiency: string }[];
+  setLanguages: (langs: { language: string; proficiency: string }[]) => void;
+}> = ({ languages, setLanguages }) => {
+  const [input, setInput] = useState('');
+  const [proficiency, setProficiency] = useState('');
+  const profOptions = ['Native', 'Fluent', 'Professional', 'Conversational', 'Basic'];
+  const handleAdd = (e: React.FormEvent | React.MouseEvent) => {
+    e.preventDefault();
+    const trimmed = input.trim();
+    if (trimmed && proficiency && !languages.some(l => l.language === trimmed)) {
+      setLanguages([...languages, { language: trimmed, proficiency }]);
+    }
+    setInput('');
+    setProficiency('');
+  };
+  const handleRemove = (lang: string) => setLanguages(languages.filter(l => l.language !== lang));
+  return (
+    <div className={styles.formGroup}>
+      <label className={styles.formLabel}>Spoken Languages (with proficiency)</label>
+      <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+        <input
+          type="text"
+          className={styles.formInput}
+          placeholder="e.g. English, Spanish"
+          value={input}
+          onChange={e => setInput(e.target.value)}
+          autoComplete="off"
+          style={{ flex: 2 }}
+        />
+        <select
+          className={styles.formInput}
+          value={proficiency}
+          onChange={e => setProficiency(e.target.value)}
+          style={{ flex: 1, minWidth: 120 }}
+          title="Proficiency"
+        >
+          <option value="">Proficiency</option>
+          {profOptions.map(opt => (
+            <option key={opt} value={opt}>{opt}</option>
+          ))}
+        </select>
+        <button
+          type="button"
+          className={styles.addSkillButton}
+          onClick={handleAdd}
+          disabled={!input.trim() || !proficiency}
+        >
+          Add
+        </button>
+      </div>
+      {languages.length > 0 && (
+        <div className={styles.skillsBubbleContainer}>
+          {languages.map(lang => (
+            <span
+              key={lang.language}
+              className={styles.skillBubble}
+              onClick={() => handleRemove(lang.language)}
+              tabIndex={0}
+              title="Remove language"
+            >
+              {lang.language} <span style={{ fontWeight: 400, color: '#374151', marginLeft: 4 }}>({lang.proficiency})</span> <span className={styles.removeSkill}>&times;</span>
+            </span>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

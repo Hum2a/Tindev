@@ -341,6 +341,7 @@
   border-radius: 8px;
   outline: none;
   user-select: none;
+  -webkit-user-select: none;
 }
 
 .sectionHeader:hover, .sectionHeader:focus {
@@ -402,5 +403,125 @@
   .salaryCurrencySelect, .salaryPeriodSelect {
     width: 100%;
     min-width: 0;
+  }
+}
+
+/* --- Enhanced SkillInputGroup Dropdown & Toggle Styles --- */
+.form-skillsDropdown {
+  position: absolute;
+  z-index: 9999;
+  background: linear-gradient(120deg, #f9fafb 80%, #e0f7fa 100%);
+  border: 2px solid #b6e0fe;
+  border-radius: 14px;
+  margin-top: 6px;
+  width: 100%;
+  max-height: 240px;
+  overflow-y: auto;
+  box-shadow: 0 8px 32px rgba(0,112,243,0.13), 0 1.5px 8px rgba(0,0,0,0.04);
+  animation: fadeIn 0.3s;
+  padding: 0.3rem 0;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  transition: box-shadow 0.18s, border-color 0.18s;
+}
+
+.form-skillsDropdownItem {
+  padding: 1rem 1.3rem 1rem 1.1rem;
+  cursor: pointer;
+  z-index: 9999;
+  font-size: 1.08rem;
+  color: #1e293b;
+  background: none;
+  border: none;
+  text-align: left;
+  width: 100%;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  transition: background 0.18s, color 0.18s, font-size 0.15s;
+  border-bottom: 1px solid #e0e7ef;
+  outline: none;
+}
+
+.form-skillsDropdownItem:last-child {
+  border-bottom: none;
+}
+
+.form-skillsDropdownItem:hover,
+.form-skillsDropdownItem:focus,
+.form-skillsDropdownItemActive {
+  background: linear-gradient(90deg, #e0f7fa 0%, #b2ebf2 100%);
+  color: #0070f3;
+  z-index: 9999;
+  font-size: 1.13rem;
+  outline: none;
+  box-shadow: 0 2px 8px rgba(0,112,243,0.07);
+}
+
+/* Custom scrollbar for dropdown */
+.form-skillsDropdown {
+  scrollbar-width: thin;
+  scrollbar-color: #b6e0fe #f9fafb;
+}
+.form-skillsDropdown::-webkit-scrollbar {
+  width: 8px;
+  background: #f9fafb;
+  border-radius: 8px;
+}
+.form-skillsDropdown::-webkit-scrollbar-thumb {
+  background: #b6e0fe;
+  border-radius: 8px;
+}
+
+@media (max-width: 600px) {
+  .form-skillsDropdown {
+    max-height: 120px;
+    font-size: 0.99rem;
+    border-radius: 10px;
+  }
+  .form-skillsDropdownItem {
+    font-size: 1rem;
+    padding: 0.8rem 1rem 0.8rem 0.9rem;
+  }
+}
+
+.skillToggleButton {
+  background: linear-gradient(90deg, #e0f7fa 0%, #b2ebf2 100%);
+  color: #0070f3;
+  border: none;
+  border-radius: 8px;
+  padding: 0.4rem 1rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  margin-left: 8px;
+  transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+  box-shadow: 0 2px 8px rgba(0,112,243,0.08);
+  outline: none;
+}
+
+.skillToggleButton[aria-pressed="true"],
+.skillToggleButton:active {
+  background: linear-gradient(90deg, #0070f3 0%, #00c6fb 100%);
+  color: #fff;
+}
+
+.skillToggleButton:hover,
+.skillToggleButton:focus {
+  background: #f0f7ff;
+  color: #0051a8;
+}
+
+/* Tweak for small addSkillButton (toggle) */
+.addSkillButton.small {
+  padding: 0.4rem 1rem;
+  font-size: 0.95rem;
+  margin-left: 8px;
+}
+
+@media (max-width: 600px) {
+  .skillToggleButton, .addSkillButton.small {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 0.5rem;
   }
 }
