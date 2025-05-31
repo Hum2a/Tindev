@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,39 +27,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <header className="header">
-          <nav className="nav-container">
-            <div className="logo">Tindev</div>
-            <div className="nav-links">
-              <a href="#features">Features</a>
-              <a href="#how-it-works">How It Works</a>
-              <a href="/login" className="login-button">Login</a>
-            </div>
-          </nav>
-        </header>
+        <Header />
         {children}
-        <footer className="footer">
-          <div className="footer-content">
-            <div className="footer-section">
-              <h4>Tindev</h4>
-              <p>Connecting developers with opportunities</p>
-            </div>
-            <div className="footer-section">
-              <h4>Quick Links</h4>
-              <a href="#features">Features</a>
-              <a href="#how-it-works">How It Works</a>
-              <a href="/about">About Us</a>
-            </div>
-            <div className="footer-section">
-              <h4>Legal</h4>
-              <a href="/privacy">Privacy Policy</a>
-              <a href="/terms">Terms of Service</a>
-            </div>
-          </div>
-          <div className="footer-bottom">
-            <p>&copy; {new Date().getFullYear()} Tindev. All rights reserved.</p>
-          </div>
-        </footer>
+        <Footer />
       </body>
     </html>
   );
