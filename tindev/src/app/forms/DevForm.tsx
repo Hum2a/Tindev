@@ -63,11 +63,36 @@ const COUNTRY_CODES = [
   // ...add more as needed
 ];
 
+const EMPLOYMENT_TYPES = [
+  'Full-time', 'Part-time', 'Contract', 'Freelance', 'Internship'
+];
+const AVAILABILITIES = [
+  'Immediate', '1 week', '2 weeks', '1 month', 'Negotiable'
+];
+
+const CURRENCIES = [
+  { code: 'USD', symbol: '$' },
+  { code: 'GBP', symbol: '£' },
+  { code: 'EUR', symbol: '€' },
+  { code: 'CAD', symbol: 'C$' },
+  { code: 'AUD', symbol: 'A$' },
+  { code: 'INR', symbol: '₹' },
+  { code: 'JPY', symbol: '¥' },
+  { code: 'CNY', symbol: '¥' },
+  { code: 'BRL', symbol: 'R$' },
+  { code: 'ZAR', symbol: 'R' },
+  // ...add more as needed
+];
+const SALARY_PERIODS = [
+  'Hourly', 'Per Project', 'Weekly', 'Monthly', 'Annually'
+];
+
 const DevForm: React.FC = () => {
   const { profile } = useAuth();
 
   // Collapsible section state
   const [showBasic, setShowBasic] = useState(true);
+  const [showProfessional, setShowProfessional] = useState(false);
 
   const [skills, setSkills] = useState<string[]>([]);
   const [skillInput, setSkillInput] = useState('');
@@ -88,6 +113,16 @@ const DevForm: React.FC = () => {
   const [timezone, setTimezone] = useState('');
   const [phoneCode, setPhoneCode] = useState('+44');
   const [phone, setPhone] = useState('');
+
+  const [currentJobTitle, setCurrentJobTitle] = useState('');
+  const [currentEmployer, setCurrentEmployer] = useState('');
+  const [yearsExperience, setYearsExperience] = useState('');
+  const [employmentType, setEmploymentType] = useState('');
+  const [availability, setAvailability] = useState('');
+  const [expectedSalary, setExpectedSalary] = useState('');
+  const [salaryCurrency, setSalaryCurrency] = useState('USD');
+  const [salaryPeriod, setSalaryPeriod] = useState('Annually');
+  const [salaryAmount, setSalaryAmount] = useState('');
 
   const handleSkillInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSkillInput(e.target.value);
@@ -329,6 +364,118 @@ const DevForm: React.FC = () => {
             </div>
           </div>
         </div>
+        {/* Collapsible Professional Details Section */}
+        <button
+          type="button"
+          className={styles.sectionHeader}
+          onClick={() => setShowProfessional((prev) => !prev)}
+          aria-expanded={showProfessional ? 'true' : 'false'}
+        >
+          <span>Professional Details</span>
+          <span className={styles.sectionChevron + (showProfessional ? ' ' + styles.sectionChevronOpen : '')}>
+            ▼
+          </span>
+        </button>
+        <div
+          className={styles.sectionContent}
+          style={{ maxHeight: showProfessional ? 2000 : 0, opacity: showProfessional ? 1 : 0, pointerEvents: showProfessional ? 'auto' : 'none' }}
+        >
+          <div className={styles.formGroup}>
+            <label className={styles.formLabel}>Current Job Title</label>
+            <input
+              type="text"
+              className={styles.formInput}
+              placeholder="e.g. Senior Software Engineer"
+              value={currentJobTitle}
+              onChange={e => setCurrentJobTitle(e.target.value)}
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <label className={styles.formLabel}>Current Employer / Company</label>
+            <input
+              type="text"
+              className={styles.formInput}
+              placeholder="e.g. Google, Freelance, etc."
+              value={currentEmployer}
+              onChange={e => setCurrentEmployer(e.target.value)}
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <label className={styles.formLabel}>Years of Experience</label>
+            <input
+              type="number"
+              min="0"
+              className={styles.formInput}
+              placeholder="e.g. 5"
+              value={yearsExperience}
+              onChange={e => setYearsExperience(e.target.value)}
+            />
+          </div>
+          <div className={styles.formGroup}>
+            <label className={styles.formLabel}>Employment Type</label>
+            <select
+              className={styles.formInput}
+              value={employmentType}
+              onChange={e => setEmploymentType(e.target.value)}
+              title="Employment Type"
+            >
+              <option value="">Select type</option>
+              {EMPLOYMENT_TYPES.map(type => (
+                <option key={type} value={type}>{type}</option>
+              ))}
+            </select>
+          </div>
+          <div className={styles.formGroup}>
+            <label className={styles.formLabel}>Availability</label>
+            <select
+              className={styles.formInput}
+              value={availability}
+              onChange={e => setAvailability(e.target.value)}
+              title="Availability"
+            >
+              <option value="">Select availability</option>
+              {AVAILABILITIES.map(a => (
+                <option key={a} value={a}>{a}</option>
+              ))}
+            </select>
+          </div>
+          <div className={styles.formGroup}>
+            <label className={styles.formLabel}>Expected Salary / Hourly Rate</label>
+            <div className={styles.salaryRow}>
+              <select
+                className={styles.salaryCurrencySelect}
+                value={salaryCurrency}
+                onChange={e => setSalaryCurrency(e.target.value)}
+                title="Currency"
+              >
+                {CURRENCIES.map(opt => (
+                  <option key={opt.code} value={opt.code}>
+                    {opt.code} ({opt.symbol})
+                  </option>
+                ))}
+              </select>
+              <input
+                type="number"
+                min="0"
+                className={styles.formInput}
+                placeholder="Amount"
+                value={salaryAmount}
+                onChange={e => setSalaryAmount(e.target.value)}
+                style={{ maxWidth: 120 }}
+              />
+              <select
+                className={styles.salaryPeriodSelect}
+                value={salaryPeriod}
+                onChange={e => setSalaryPeriod(e.target.value)}
+                title="Period"
+              >
+                {SALARY_PERIODS.map(period => (
+                  <option key={period} value={period}>{period}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+        </div>
         <div className={styles.formGroup}>
           <label htmlFor="skills" className={styles.formLabel}>Skills</label>
           <div style={{ display: 'flex', gap: '0.5rem' }}>
@@ -372,6 +519,7 @@ const DevForm: React.FC = () => {
           <label htmlFor="experience" className={styles.formLabel}>Years of Experience</label>
           <input id="experience" name="experience" type="number" min="0" placeholder="e.g. 3" className={styles.formInput} />
         </div>
+
         <button type="submit" className={styles.formButton}>Save</button>
       </form>
     </div>
