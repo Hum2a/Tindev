@@ -157,9 +157,9 @@
   background: linear-gradient(90deg, #e0f7fa 0%, #b2ebf2 100%);
   color: #0070f3;
   font-weight: 600;
-  padding: 0.5rem 1.1rem 0.5rem 0.9rem;
-  border-radius: 999px;
-  font-size: 1rem;
+  padding: 0.32rem 0.8rem 0.32rem 0.7rem;
+  border-radius: 1.1rem;
+  font-size: 0.93rem;
   box-shadow: 0 2px 8px rgba(0,112,243,0.07);
   cursor: pointer;
   transition: background 0.18s, color 0.18s, transform 0.15s;
@@ -176,9 +176,9 @@
 }
 
 .removeSkill {
-  margin-left: 0.5rem;
+  margin-left: 0.4rem;
   color: #dc2626;
-  font-size: 1.1em;
+  font-size: 1em;
   font-weight: 700;
   transition: color 0.18s;
 }
@@ -443,7 +443,7 @@
   background: white;
   border-radius: 10px;
   box-shadow: 0 4px 16px rgba(0,0,0,0.1);
-  z-index: 1000;
+  z-index: 9999;
   max-height: 300px;
   overflow-y: auto;
   margin-top: 0.5rem;
@@ -533,4 +533,24 @@
   .skillToggleButton, .addSkillButton.small {
     width: 100%;
   }
+}
+
+/* Ensure the parent is relative for stacking context */
+.skillsBubbleContainer + div {
+  position: relative;
+}
+
+.skillInputRow {
+  display: flex;
+  gap: 0.7rem;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.addSkillButton {
+  height: 44px;
+  padding-top: 0;
+  padding-bottom: 0;
+  display: flex;
+  align-items: center;
 } 

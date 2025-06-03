@@ -609,7 +609,7 @@ const SkillInputGroup: React.FC<SkillInputGroupProps> = ({ label, skills, setSki
           </div>
         ))}
       </div>
-      <div style={{ position: 'relative' }}>
+      <div className={styles.skillInputRow}>
         <input
           type="text"
           className={styles.formInput}
@@ -620,28 +620,28 @@ const SkillInputGroup: React.FC<SkillInputGroupProps> = ({ label, skills, setSki
           onFocus={() => setShowDropdown(true)}
           onBlur={() => setTimeout(() => setShowDropdown(false), 200)}
         />
-        {showDropdown && filteredOptions.length > 0 && (
-          <div className={styles.formSkillsDropdown}>
-            {filteredOptions.map(option => (
-              <div
-                key={option}
-                className={styles.formSkillsDropdownItem}
-                onClick={() => handleDropdownSelect(option)}
-              >
-                {option}
-              </div>
-            ))}
-          </div>
-        )}
+        <button
+          type="button"
+          className={styles.addSkillButton}
+          onClick={handleAdd}
+          disabled={!input.trim()}
+        >
+          Add Skill
+        </button>
       </div>
-      <button
-        type="button"
-        className={styles.addSkillButton}
-        onClick={handleAdd}
-        disabled={!input.trim()}
-      >
-        Add Skill
-      </button>
+      {showDropdown && filteredOptions.length > 0 && (
+        <div className={styles.formSkillsDropdown}>
+          {filteredOptions.map(option => (
+            <div
+              key={option}
+              className={styles.formSkillsDropdownItem}
+              onClick={() => handleDropdownSelect(option)}
+            >
+              {option}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
