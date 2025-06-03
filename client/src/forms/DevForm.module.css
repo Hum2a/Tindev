@@ -1,0 +1,536 @@
+.formCard {
+  margin-top: 2rem;
+  padding: 2.5rem 2rem;
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 2rem;
+  box-shadow: 0 8px 32px rgba(31,38,135,0.13);
+  margin-left: auto;
+  margin-right: auto;
+  animation: fadeInUp 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+  position: relative;
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1.5px solid rgba(255,255,255,0.35);
+}
+
+.formTitle {
+  font-size: 2rem;
+  font-weight: 900;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(90deg, #6a82fb 0%, #fc5c7d 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.5px;
+  text-align: center;
+  animation: fadeIn 1s 0.2s both;
+}
+
+.formGroup {
+  margin-bottom: 1.5rem;
+  position: relative;
+  animation: fadeIn 1s 0.3s both;
+}
+
+.formLabel {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, #6a82fb 0%, #fc5c7d 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 0.01em;
+  font-size: 1.08rem;
+  transition: color 0.2s;
+}
+
+.formInput, .formTextarea {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 1.2rem;
+  border: 1.5px solid rgba(106,130,251,0.18);
+  font-size: 1rem;
+  background: rgba(255,255,255,0.45);
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+  outline: none;
+  box-shadow: 0 2px 8px rgba(106,130,251,0.07);
+  color: #1a1a2e;
+  font-weight: 500;
+}
+
+.formInput:focus, .formTextarea:focus {
+  border-color: #6a82fb;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(106,130,251,0.10);
+}
+
+.formButton {
+  background: linear-gradient(90deg, #6a82fb 0%, #fc5c7d 100%);
+  color: white;
+  padding: 1rem 2.5rem;
+  border-radius: 1.2rem;
+  border: none;
+  font-weight: 800;
+  font-size: 1.15rem;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(106,130,251,0.13);
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  margin-top: 0.5rem;
+  display: block;
+  width: 100%;
+  animation: popIn 0.7s 0.2s both;
+  letter-spacing: 0.5px;
+}
+
+.formButton:hover {
+  background: linear-gradient(90deg, #43e97b 0%, #38f9d7 100%);
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 8px 24px rgba(67,233,123,0.18);
+}
+
+.formButton:active {
+  transform: scale(0.98);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes popIn {
+  0% { opacity: 0; transform: scale(0.95); }
+  80% { opacity: 1; transform: scale(1.04); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.addSkillButton {
+  background: linear-gradient(90deg, #43e97b 0%, #38f9d7 100%);
+  color: white;
+  border: none;
+  border-radius: 1.2rem;
+  padding: 0.75rem 1.5rem;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(67,233,123,0.08);
+  outline: none;
+  animation: popIn 0.7s 0.3s both;
+}
+
+.addSkillButton:disabled {
+  background: #e5e7eb;
+  color: #b1b5bb;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.addSkillButton:hover:not(:disabled) {
+  background: linear-gradient(90deg, #6a82fb 0%, #fc5c7d 100%);
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 4px 16px rgba(252,92,125,0.13);
+}
+
+.skillsBubbleContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  animation: fadeIn 0.7s 0.1s both;
+}
+
+.skillBubble {
+  display: inline-flex;
+  align-items: center;
+  background: linear-gradient(90deg, #e0f7fa 0%, #b2ebf2 100%);
+  color: #0070f3;
+  font-weight: 600;
+  padding: 0.5rem 1.1rem 0.5rem 0.9rem;
+  border-radius: 999px;
+  font-size: 1rem;
+  box-shadow: 0 2px 8px rgba(0,112,243,0.07);
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s, transform 0.15s;
+  position: relative;
+  animation: popIn 0.5s;
+  margin-bottom: 0.2rem;
+}
+
+.skillBubble:hover, .skillBubble:focus {
+  background: linear-gradient(90deg, #0070f3 0%, #00c6fb 100%);
+  color: white;
+  transform: scale(1.07);
+  outline: none;
+}
+
+.removeSkill {
+  margin-left: 0.5rem;
+  color: #dc2626;
+  font-size: 1.1em;
+  font-weight: 700;
+  transition: color 0.18s;
+}
+
+.skillBubble:hover .removeSkill, .skillBubble:focus .removeSkill {
+  color: #fff;
+}
+
+.useProfileButton {
+  background: none;
+  border: none;
+  color: #0070f3;
+  font-weight: 600;
+  margin-left: 1rem;
+  cursor: pointer;
+  font-size: 0.95rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 6px;
+  transition: color 0.18s, background 0.18s, box-shadow 0.18s;
+  outline: none;
+  position: relative;
+  top: -2px;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  animation: fadeIn 0.7s 0.2s both;
+}
+
+.useProfileButton:hover,
+.useProfileButton:focus {
+  color: #0051a8;
+  background: #f0f7ff;
+  box-shadow: 0 2px 8px rgba(0,112,243,0.07);
+  text-decoration: none;
+}
+
+.profilePreview {
+  margin-top: 0.75rem;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  box-shadow: 0 4px 16px rgba(0,112,243,0.13);
+  border: 2px solid #e5e7eb;
+  transition: box-shadow 0.2s, border-color 0.2s;
+  animation: popIn 0.5s;
+}
+
+.profilePreview:hover,
+.profilePreview:focus {
+  box-shadow: 0 8px 24px rgba(0,112,243,0.18);
+  border-color: #0070f3;
+}
+
+.nameRow {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.2rem;
+}
+
+.nameRow .formInput {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+@media (max-width: 600px) {
+  .nameRow {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+.photoUploadRow {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-top: 0.3rem;
+}
+
+.uploadButton {
+  background: linear-gradient(90deg, #00c6fb 0%, #0070f3 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(0,112,243,0.08);
+  outline: none;
+}
+
+.uploadButton:hover, .uploadButton:focus {
+  background: linear-gradient(90deg, #00a6d6 0%, #0051a8 100%);
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 4px 16px rgba(0,112,243,0.13);
+}
+
+.locationRow {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.2rem;
+}
+
+.locationRow .formInput {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+@media (max-width: 600px) {
+  .locationRow {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+.phoneRow {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.2rem;
+}
+
+.phoneCodeSelect {
+  width: 120px;
+  padding: 1rem;
+  border-radius: 10px;
+  border: 1.5px solid #e5e7eb;
+  font-size: 1rem;
+  background: #f9fafb;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+  outline: none;
+  box-shadow: 0 2px 8px rgba(0,112,243,0.03);
+  color: #222;
+  cursor: pointer;
+}
+
+.phoneCodeSelect:focus {
+  border-color: #0070f3;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(0,112,243,0.10);
+}
+
+@media (max-width: 600px) {
+  .phoneRow {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .phoneCodeSelect {
+    width: 100%;
+  }
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  background: rgba(255,255,255,0.22);
+  border-radius: 1.5rem;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.18s;
+  margin-bottom: 1.5rem;
+  border: 2px solid rgba(106,130,251,0.18);
+  font-weight: 700;
+  color: #1a1a2e;
+  letter-spacing: 0.01em;
+  font-size: 1.08rem;
+  box-shadow: 0 2px 12px rgba(106,130,251,0.07);
+  position: relative;
+  outline: none;
+}
+
+.sectionHeader:hover, .sectionHeader:focus {
+  background: linear-gradient(90deg, #f6f8fc 0%, #e0e7ff 100%);
+  box-shadow: 0 4px 16px rgba(106,130,251,0.13);
+  transform: scale(1.03);
+  border-color: #6a82fb;
+}
+
+.sectionChevron {
+  transition: transform 0.3s cubic-bezier(.4,2,.6,1), color 0.2s;
+  background: linear-gradient(90deg, #6a82fb 0%, #fc5c7d 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 1.3rem;
+  margin-left: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.sectionChevronOpen {
+  transform: rotate(180deg);
+}
+
+.sectionContent {
+  padding: 1rem;
+  animation: fadeIn 0.3s;
+  overflow: hidden;
+  transition: max-height 0.5s cubic-bezier(.4,2,.6,1), opacity 0.4s cubic-bezier(.4,2,.6,1),
+    transform 0.5s cubic-bezier(.4,2,.6,1), box-shadow 0.5s cubic-bezier(.4,2,.6,1), border-color 0.5s cubic-bezier(.4,2,.6,1);
+  max-height: 0;
+  opacity: 0;
+  transform: scale(0.98);
+  box-shadow: none;
+  border: 2px solid transparent;
+}
+
+.sectionHeader[aria-expanded="true"] + .sectionContent,
+.sectionContent[style*="max-height: 2000"] {
+  max-height: 2000px;
+  opacity: 1;
+  transform: scale(1.01);
+  box-shadow: 0 8px 32px 0 rgba(106,130,251,0.13), 0 0 16px 0 rgba(106,130,251,0.10);
+  border: 2px solid #6a82fb;
+  border-color: #6a82fb;
+  transition: max-height 0.7s cubic-bezier(.4,2,.6,1), opacity 0.5s cubic-bezier(.4,2,.6,1),
+    transform 0.5s cubic-bezier(.4,2,.6,1), box-shadow 0.5s cubic-bezier(.4,2,.6,1), border-color 0.5s cubic-bezier(.4,2,.6,1);
+}
+
+.salaryRow {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.2rem;
+}
+
+.salaryCurrencySelect, .salaryPeriodSelect {
+  width: 120px;
+  padding: 1rem;
+  border-radius: 10px;
+  border: 1.5px solid #e5e7eb;
+  font-size: 1rem;
+  background: #f9fafb;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+  outline: none;
+  box-shadow: 0 2px 8px rgba(0,112,243,0.03);
+  color: #222;
+  cursor: pointer;
+}
+
+.salaryCurrencySelect:focus, .salaryPeriodSelect:focus {
+  border-color: #0070f3;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(0,112,243,0.10);
+}
+
+@media (max-width: 600px) {
+  .salaryRow {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .salaryCurrencySelect, .salaryPeriodSelect {
+    width: 100%;
+  }
+}
+
+.formSkillsDropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  z-index: 1000;
+  max-height: 300px;
+  overflow-y: auto;
+  margin-top: 0.5rem;
+  border: 1.5px solid #e5e7eb;
+  animation: fadeIn 0.2s;
+}
+
+.formSkillsDropdownItem {
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #374151;
+  font-weight: 500;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.formSkillsDropdownItem:last-child {
+  border-bottom: none;
+}
+
+.formSkillsDropdownItem:hover,
+.formSkillsDropdownItem:focus {
+  background: #f0f7ff;
+  color: #0070f3;
+}
+
+.formSkillsDropdown {
+  scrollbar-width: thin;
+  scrollbar-color: #0070f3 #f3f4f6;
+}
+
+.formSkillsDropdown::-webkit-scrollbar {
+  width: 8px;
+}
+
+.formSkillsDropdown::-webkit-scrollbar-thumb {
+  background-color: #0070f3;
+  border-radius: 4px;
+}
+
+@media (max-width: 600px) {
+  .formSkillsDropdown {
+    position: fixed;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    max-height: 50vh;
+    border-radius: 18px 18px 0 0;
+    margin: 0;
+  }
+  .formSkillsDropdownItem {
+    padding: 1rem;
+  }
+}
+
+.skillToggleButton {
+  background: none;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.2s;
+  outline: none;
+}
+
+.skillToggleButton[aria-pressed="true"],
+.skillToggleButton:hover,
+.skillToggleButton:focus {
+  background: #f0f7ff;
+  border-color: #0070f3;
+  color: #0070f3;
+}
+
+.addSkillButton.small {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 600px) {
+  .skillToggleButton, .addSkillButton.small {
+    width: 100%;
+  }
+} 
