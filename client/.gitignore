@@ -4,21 +4,84 @@
 /node_modules
 /.pnp
 .pnp.js
+package-lock.json
+yarn.lock
 
 # testing
 /coverage
+*.lcov
+.nyc_output
 
 # production
 /build
+/dist
+*.tsbuildinfo
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
 
 # misc
 .DS_Store
 .env
 .env.local
+.env.development
 .env.development.local
+.env.test
 .env.test.local
+.env.production
 .env.production.local
+.env.staging
+.env.staging.local
 
+# debug logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+debug.log
+.pnpm-debug.log*
+
+# cache & temp files
+.cache
+.temp
+.tmp
+*.swp
+*.swo
+.eslintcache
+.stylelintcache
+
+# TypeScript
+*.tsbuildinfo
+
+# Next.js
+.next/
+out/
+
+# Storybook
+storybook-static/
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Bundle analysis
+stats.json
+bundle-stats.json
+
+# PWA
+**/public/sw.js
+**/public/workbox-*.js
+**/public/worker-*.js
+**/public/sw.js.map
+**/public/workbox-*.js.map
+**/public/worker-*.js.map
